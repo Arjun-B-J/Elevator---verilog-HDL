@@ -2,9 +2,7 @@ import board
 import analogio
 import time
  
- 
 TMP36_PIN = board.A0  # Analog input connected to TMP36 output.
- 
  
 # Function to simplify the math of reading the temperature.
 def tmp36_temperature_C(analogin):

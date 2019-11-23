@@ -1,4 +1,6 @@
-module elevator(req_floor,in_floor,weight,clk,complete,direction,over_weight,out_floor);
+
+
+module elevator_4(req_floor,in_floor,weight,clk,complete,direction,over_weight,out_floor);
 
 //inputs
 input[2:0]req_floor;
@@ -33,6 +35,7 @@ begin
 temp_out_floor=1;
 temp_direction=0;
 temp_complete=1;
+r_floor=0;
 end
 
 
@@ -56,7 +59,8 @@ always@(weight)
 
 always@(posedge clk)
  begin
-   
+   if(r_floor==0)
+   begin
    /// idle or lift is moving up.
     if(temp_direction==1 || temp_direction==0)
      
@@ -84,8 +88,7 @@ always@(posedge clk)
                   temp_direction=2;
                  end
              end
-         end
-     
+         end   end  
     /// lift moving down
      else
         begin
@@ -113,25 +116,35 @@ always@(posedge clk)
             end
         end
       end
-    end  
-  end
- 
+    end
+   end  
+
  /// to assign direction and out floor
  always@(posedge clk)
  begin
- if(!over_weight)
+ if(!over_weight && r_floor!=0)
    begin
      
      if (r_floor>temp_out_floor)
         begin
            // temp_direction = 1;
-            temp_out_floor <= temp_out_floor+1; 
+            temp_out_floor <= temp_out_floor+1;
+	     if(ram[temp_out_floor])
+	     begin
+		temp_complete=1;
+		ram[temp_out_floor]=0;
+  	     end 
         end
      
      else if (r_floor< temp_out_floor)
         begin
            // temp_direction = 2;
             temp_out_floor = temp_out_floor-1;
+	     if(ram[temp_out_floor])
+	     begin
+		temp_complete=1;
+		ram[temp_out_floor]=0;
+  	     end 
         end
      
      else if (r_floor == temp_out_floor)
@@ -148,9 +161,15 @@ always@(posedge clk)
     begin
         //temp_weight_alert=1;
         temp_direction=0;
-        temp_complete=1;
+        //temp_complete=1;
         temp_out_floor <= temp_out_floor;
     end
 
+end
+always@(temp_out_floor)
+begin
+//for(k=0;k<8;k++)
+if(r_floor==0)
+temp_complete=1;
 end
 endmodule
