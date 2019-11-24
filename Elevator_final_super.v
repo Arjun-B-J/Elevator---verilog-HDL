@@ -14,34 +14,39 @@ output [11:0]fan_rpm;
 output [2:0]powerlevel;
 output [7:0]motor;
 output reg [1:0]direction;
-output reg  complete;
-output reg  over_weight;
-output reg  [2:0]out_floor;
+output reg complete;
+output reg over_weight;
+output reg [2:0]out_floor;
 
-reg [2:0] out1,out2;
-reg cmpt1,cmpt2;
-reg ovweight1,ovweight2;
-reg [1:0]d1,d2;
+wire [2:0] out1,out2;
+wire cmpt1,cmpt2;
+wire ovweight1,ovweight2;
+wire [1:0]d1,d2;
+
 
 temperature_controlled_fan fan1(fan_speed,fan_rpm,temperature_input);
 powersavingmotor motor1(powerlevel,motor,weight);
 Elevator_algorithm e1(req_floor,weight,clk,cmpt1,d1,ovweight1,out1);
 Short_distance_algorithm e2(req_floor,weight,clk,cmpt2,d2,ovweight2,out2);
-if(algorithm_selector==0)
+
+always@(clk)
 begin
-    complete=cmpt1;
-    direction=d1;
-    over_weight=ovweight1;
-    out_floor=out1;
-end
-else if(algorithm_selector==1)
+if(algorithm_selector==1)
 begin
-    complete=cmpt2;
-    direction=d2;
-    over_weight=ovweight2;
-    out_floor=out2;
+     complete=cmpt1;
+     direction=d1;
+     over_weight=ovweight1;
+     out_floor=out1;
 end
-  
+
+else 
+begin
+     complete=cmpt2;
+     direction=d2;
+     over_weight=ovweight2;
+     out_floor=out2;
+end
+end
 
 endmodule
 //Elevator Algoritm
@@ -594,7 +599,7 @@ output [7:0]motor;
 
 reg [2:0]pl;
 
-DeCoder8 d1(1,pl,motor); 
+DeCoder8 d1(1'b1,pl,motor); 
 
 assign powerlevel = pl;
 //level 1
