@@ -136,19 +136,20 @@ always@(posedge clk)
         begin
            // temp_direction = 1;
             temp_out_floor <= temp_out_floor+1;
+
 	     if(ram[temp_out_floor])
 	     begin
-		if(ramw[temp_out_floor]>900)
-		begin
+          if(ramw[temp_out_floor]>900)
+	    	begin
 			temp_over_weight=1;
-		end
-		else
-		begin
+	    	end
+		  else
+		    begin
 			temp_over_weight=0;
-		end
-		temp_complete=1;
-		ram[temp_out_floor]=0;
-		ramw[temp_out_floor]=0;
+		    end
+		  temp_complete=1;
+		  ram[temp_out_floor]=0;
+		  ramw[temp_out_floor]=0;
   	     end 
         end
      
@@ -158,17 +159,17 @@ always@(posedge clk)
             temp_out_floor = temp_out_floor-1;
 	     if(ram[temp_out_floor])
 	     begin
-		if(ramw[temp_out_floor]>900)
-		begin
+		  if(ramw[temp_out_floor]>900)
+		   begin
 			temp_over_weight=1;
-		end
-		else
-		begin
+	       end
+		  else
+		   begin
 			temp_over_weight=0;
-		end
-		temp_complete=1;
-		ram[temp_out_floor]=0;
-		ramw[temp_out_floor]=0;
+		   end
+		 temp_complete=1;
+		 ram[temp_out_floor]=0;
+		 ramw[temp_out_floor]=0;
   	     end 
         end
      
@@ -181,12 +182,11 @@ always@(posedge clk)
 	    else
 	    begin
 			temp_over_weight=0;
-            end
-            temp_complete = 1;
-           // temp_direction = 0;
-            ram[r_floor]=0;
-	    ramw[temp_out_floor]=0;
-            r_floor=0;
+        end
+           temp_complete = 1;
+           ram[r_floor]=0;
+	       ramw[temp_out_floor]=0;
+           r_floor=0;
         end
     
     end          
