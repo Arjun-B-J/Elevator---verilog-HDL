@@ -1,22 +1,13 @@
-import board
-import analogio
+import serial
 import time
- 
-TMP36_PIN = board.A0  # Analog input connected to TMP36 output.
- 
-# Function to simplify the math of reading the temperature.
-def tmp36_temperature_C(analogin):
-    millivolts = analogin.value * (analogin.reference_voltage * 1000 / 65535)
-    return (millivolts - 500) / 10
- 
-tmp36 = analogio.AnalogIn(TMP36_PIN)
- 
-# Loop forever.
+ # open the port , set baudrate as 9600
+serial_monitor = serial.Serial('/dev/ttyACM1', 9600 )
+# open the file to write
+f = open('temp_readings.log', 'w') 
 while True:
-    # Read the temperature in Celsius.
-    temp_C = tmp36_temperature_C(tmp36)
-    #this is given as input to the verilog main code;
-
-    # Print out the value and delay a second before looping again.
-    print("Temperature: {}C {}F".format(temp_C, temp_F))
-    time.sleep(1.0)
+    # wait for 1000 seconds
+    time.sleep(1000) 
+    # read the temparature value
+    temp = serial_monitor.readline() 
+    # write the integer temparature value to file
+    f.write(int(temp)) 

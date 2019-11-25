@@ -523,7 +523,7 @@ if(weight<800&&weight>599)
   end
 
  //level 5
-if(weight>799)
+if(weight>799 && weight <900)
   begin
     pl=5;
   end
@@ -550,17 +550,17 @@ begin
  //speed 1
  if(fan_speed==1)
    begin
-     temp_rpm = 100;
+     temp_rpm = 1000;
    end
   //speed2 
   else if(fan_speed==2)
    begin
-     temp_rpm =200;
+     temp_rpm =2000;
    end
   //speed3
   else 
    begin
-    temp_rpm = 300;
+    temp_rpm = 3000;
    end  
 end
 
