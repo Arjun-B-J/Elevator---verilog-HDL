@@ -1,6 +1,6 @@
 import serial
 import time
- # open the port , set baudrate as 9600
+ # open the port , set bandrate as 9600
 serial_monitor = serial.Serial('/dev/ttyACM1', 9600 )
 # open the file to write
 f = open('temp_readings.log', 'w') 
